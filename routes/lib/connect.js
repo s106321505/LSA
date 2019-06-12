@@ -1,32 +1,42 @@
-const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: '../database.db'
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "L@bwke405;",
+  database: 'LSA'
 });
 
-var querystring = '';
+connection.connect(function (err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
 
-function execQuery(querystring) {
-    sequelize.query(querystring,
-        { replacements: { status: ['active', 'inactive'] }, type: sequelize.QueryTypes.SELECT }
-    ).then(function (dateset) {
-        console.log(dateset);
-    });
-}
-
+function execQuery(querystring, res) {
+  connection.query(querystring, function (err, rows, fields) {
+    if (err) { throw err; }
+    else {
+      res.send(rows[0]);
+    }
+  });
+};
 
 module.exports = {
-    get: function getData(name) {
-        querystring = `select * from User where Name = '${name}' ; `
-        execQuery(querystring)
-    },
-    post:function insertData(name, age) {
-        querystring = `inset into User (Name, Age) select '${name}', ${age} ; `
-        execQuery(querystring);
-    }, 
-    delete:function deleteData(name) {
-        querystring = `delete from User where Name = '${name}' ; `
-        execQuery(querystring);
-    }
-}
+  get: function getData(name, res) {
+    querystring = `select * from Users where Name = '${name}' ; `;
+    execQuery(querystring, res);
+  },
+  post:function insertData(name, tel, res) {
+    querystring = `CALL adduser('${name}','${tel}'); `
+    execQuery(querystring, res);
+  },
+  delete: function deleteData(name, res) {
+    querystring = `CALL deleteuser('${name}'); `
+    execQuery(querystring, res);
+  },
+  put: function updateData(name, tel, res) {
+    querystring = `CALL updateuser('${name}','${tel}'); `
+    execQuery(querystring, res);
+  }
+};
