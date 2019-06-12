@@ -1,11 +1,15 @@
 
+var request = require('request');
 const assert = require('chai').assert;
 
-describe('App', function () {
-    
-   it('should return -1 when the value is not present in Array.', function () {
-    // let result = sayHello()
-    assert.equal(-1, [1,2,3].indexOf(4));
+describe('CRUD Test', function () {
+  it('Get Uers.', function () {
+    request(`http://localhost:5408/users/AAA`, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var _User = JSON.parse(body)['Name'];   
+        assert.equal(_User, 'AAA');
+      }
+    })
   });
-
 });
+

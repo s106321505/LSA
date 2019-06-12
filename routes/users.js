@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const bodyParser = require('body-parser');
 var connect = require('./lib/connect')
 
 /* GET users listing. */
