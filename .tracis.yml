@@ -1,0 +1,16 @@
+language: node_js
+
+dist: xenial
+sudo: required
+
+services: docker
+
+before_install:
+  - docker -v
+  - 
+
+install:
+  - npm start
+
+script:
+  - npm test

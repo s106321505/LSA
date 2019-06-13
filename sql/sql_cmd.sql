@@ -4,16 +4,16 @@ CREATE TABLE Users( UID int NOT NULL AUTO_INCREMENT, Name nvarchar(10) NOT NULL,
 -- adduser
     -- CALL adduser('CCC','1236548520');
 delimiter //
-drop procedure if exists adduser//
+DROP procedure if exists adduser//
 CREATE PROCEDURE adduser(pName char(10), pTel char(10))
 BEGIN
-DECLARE a char(10); 
-SET a =(select Name from Users where Name = pName);
-IF (a IS NOT NULL) THEN
-        select 'User is already exist.' as Message;
+DECLARE data char(10); 
+SET data = (SELECT Name FROM Users WHERE Name = pName);
+IF (data IS NOT NULL) THEN
+        SELECT 'User is already exist.' as Message;
 ELSE
-        insert into Users (Name, Tel) values (pName,pTel);
-        select 'User is added' as Message;
+        INSERT INTO Users (Name, Tel) VALUES (pName,pTel);
+        SELECT 'User is added' as Message;
 END IF;
 END//
 delimiter ;
